@@ -1,0 +1,29 @@
+Author: Daniel Baumann <daniel@debian.org>
+Description: Rename poedit to poeditor in the desktop file
+ The Debian package has renamed the poedit executable to poeditor,
+ and this patch fixes this rename in the desktop file too. See the bug report
+ at http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=101405 for more details.
+Index: poedit/net.poedit.Poedit.desktop
+===================================================================
+--- poedit.orig/net.poedit.Poedit.desktop
++++ poedit/net.poedit.Poedit.desktop
+@@ -2,7 +2,7 @@
+ Name=Poedit
+ GenericName=Translation editor
+ MimeType=application/x-po;application/x-gettext;text/x-gettext-translation;text/x-po;application/x-gettext-translation;text/x-gettext-translation-template;application/x-xliff+xml;application/json;application/x-arb;text/microsoft-resx;text/vnd.trolltech.linguist;application/x-linguist;
+-Exec=poedit %F
++Exec=poeditor %F
+ Icon=net.poedit.Poedit
+ Terminal=false
+ Type=Application
+Index: poedit/net.poedit.PoeditURI.desktop
+===================================================================
+--- poedit.orig/net.poedit.PoeditURI.desktop
++++ poedit/net.poedit.PoeditURI.desktop
+@@ -4,5 +4,5 @@
+ Terminal=false
+ NoDisplay=true
+ MimeType=x-scheme-handler/poedit;
+-Exec=poedit --handle-poedit-uri %u
++Exec=poeditor --handle-poedit-uri %u
+ Icon=net.poedit.Poedit
