@@ -1,4 +1,34 @@
 #!/usr/bin/make -f
 
+# export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+export LDFLAGS += -Wl,-z,relro
+ifeq ($(DEB_HOST_ARCH),mips64el)
+	export CXXFLAGS += -mxgot
+endif
+
+ifneq (,$(filter $(DEB_HOST_ARCH),armel mipsel m68k powerpc riscv64 sh4))
+export LDFLAGS += -Wl,--no-as-needed -latomic -Wl,--as-needed
+endif
+
 %:
 	dh $@
+
+override_dh_auto_configure:
+	./bootstrap
+	dh_auto_configure -- --disable-silent-rules --enable-debug
+
+override_dh_auto_install:
+	dh_auto_install
+	mv debian/tmp/usr/bin/poedit debian/tmp/usr/bin/poeditor
+	mv debian/tmp/usr/share/man/man1/poedit.1 debian/tmp/usr/share/man/man1/poeditor.1
+	# Debian bug #989949
+	rm -f debian/tmp/usr/share/icons/hicolor/icon-theme.cache
+	find debian/tmp/usr/share/locale -type d -empty -delete
+
+override_dh_installchangelogs:
+	dh_installchangelogs NEWS

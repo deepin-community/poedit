@@ -1,0 +1,4 @@
+# simple check to make sure we produce the binary in expected location with libraries linked dynamically to ita
+# the link poeditor/poedit is done in postinst script
+Test-Command: ls -l /usr/bin/poedit && ldd /usr/bin/poedit
+Depends: @
